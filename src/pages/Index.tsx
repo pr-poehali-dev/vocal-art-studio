@@ -165,10 +165,10 @@ export default function Index() {
           </div>
           <div>
             <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.05rem", fontWeight: 600, letterSpacing: "0.04em", color: "#F5EFE0" }}>
-              Арт-Студия
+              Волна талантов
             </div>
             <div style={{ fontFamily: "'Caveat', cursive", fontSize: "0.7rem", color: "#C9A86C", letterSpacing: "0.06em", marginTop: "-2px" }}>
-              Вокал & Живопись
+              Студия вокала и искусств
             </div>
           </div>
         </a>
@@ -634,7 +634,7 @@ export default function Index() {
               <span style={{ fontFamily: "'Caveat', cursive", color: "#C9A86C", fontSize: "1rem" }}>А</span>
             </div>
             <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.95rem", color: "rgba(245,239,224,0.6)" }}>
-              Арт-Студия © 2024
+              Волна талантов © 2024
             </span>
           </div>
           <p style={{ fontFamily: "'Caveat', cursive", fontSize: "1rem", color: "rgba(201,168,108,0.5)" }}>
