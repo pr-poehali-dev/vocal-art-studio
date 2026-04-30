@@ -121,11 +121,35 @@ function useReveal() {
   }, []);
 }
 
+const SEND_URL = "https://functions.poehali.dev/8b1a7bf9-922d-40b0-a9d2-7fc41306720d";
+
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProgram, setActiveProgram] = useState(0);
   const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
+  const [formState, setFormState] = useState<"idle" | "sending" | "sent" | "error">("idle");
   useReveal();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!formData.name || !formData.phone) return;
+    setFormState("sending");
+    try {
+      const res = await fetch(SEND_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setFormState("sent");
+        setFormData({ name: "", phone: "", message: "" });
+      } else {
+        setFormState("error");
+      }
+    } catch {
+      setFormState("error");
+    }
+  }
 
   return (
     <div className="min-h-screen" style={{ background: "#120F0B", color: "#F5EFE0" }}>
@@ -553,30 +577,49 @@ export default function Index() {
                 <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem", fontWeight: 300, marginBottom: "1.5rem" }}>
                   Написать нам
                 </h3>
-                <div className="space-y-4">
-                  {[
-                    { field: "name", placeholder: "Ваше имя", type: "text" },
-                    { field: "phone", placeholder: "Телефон", type: "tel" },
-                  ].map((f) => (
-                    <input key={f.field} type={f.type} placeholder={f.placeholder}
-                      value={formData[f.field as keyof typeof formData]}
-                      onChange={(e) => setFormData({ ...formData, [f.field]: e.target.value })}
-                      style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(201,168,108,0.2)", color: "#F5EFE0", padding: "13px 16px", fontFamily: "'Montserrat'", fontSize: "0.87rem", outline: "none", transition: "border-color 0.3s", borderRadius: "2px" }}
-                      onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = "rgba(201,168,108,0.6)")}
-                      onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = "rgba(201,168,108,0.2)")}
+
+                {formState === "sent" ? (
+                  <div className="text-center py-10">
+                    <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>✉️</div>
+                    <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", color: "#C9A86C", marginBottom: "0.5rem" }}>Заявка отправлена!</p>
+                    <p style={{ fontFamily: "'Montserrat'", fontSize: "0.85rem", color: "rgba(245,239,224,0.55)", lineHeight: 1.7 }}>
+                      Мы свяжемся с вами в ближайшее время.<br />Спасибо за интерес к нашей студии.
+                    </p>
+                    <button onClick={() => setFormState("idle")} className="btn-outline mt-6" style={{ fontSize: "0.72rem" }}>
+                      Отправить ещё
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    {[
+                      { field: "name", placeholder: "Ваше имя *", type: "text" },
+                      { field: "phone", placeholder: "Телефон *", type: "tel" },
+                    ].map((f) => (
+                      <input key={f.field} type={f.type} placeholder={f.placeholder} required={f.field !== "message"}
+                        value={formData[f.field as keyof typeof formData]}
+                        onChange={(e) => setFormData({ ...formData, [f.field]: e.target.value })}
+                        style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(201,168,108,0.2)", color: "#F5EFE0", padding: "13px 16px", fontFamily: "'Montserrat'", fontSize: "0.87rem", outline: "none", transition: "border-color 0.3s", borderRadius: "2px" }}
+                        onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = "rgba(201,168,108,0.6)")}
+                        onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = "rgba(201,168,108,0.2)")}
+                      />
+                    ))}
+                    <textarea placeholder="Расскажите о себе и своих целях" rows={4}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(201,168,108,0.2)", color: "#F5EFE0", padding: "13px 16px", fontFamily: "'Montserrat'", fontSize: "0.87rem", outline: "none", resize: "none", transition: "border-color 0.3s", borderRadius: "2px" }}
+                      onFocus={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = "rgba(201,168,108,0.6)")}
+                      onBlur={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = "rgba(201,168,108,0.2)")}
                     />
-                  ))}
-                  <textarea placeholder="Расскажите о себе и своих целях" rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(201,168,108,0.2)", color: "#F5EFE0", padding: "13px 16px", fontFamily: "'Montserrat'", fontSize: "0.87rem", outline: "none", resize: "none", transition: "border-color 0.3s", borderRadius: "2px" }}
-                    onFocus={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = "rgba(201,168,108,0.6)")}
-                    onBlur={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = "rgba(201,168,108,0.2)")}
-                  />
-                  <button className="btn-gold w-full" style={{ fontSize: "0.75rem" }}>
-                    Отправить заявку
-                  </button>
-                </div>
+                    {formState === "error" && (
+                      <p style={{ fontFamily: "'Montserrat'", fontSize: "0.8rem", color: "#C4614A" }}>
+                        Не удалось отправить. Проверьте настройки почты или позвоните нам напрямую.
+                      </p>
+                    )}
+                    <button type="submit" className="btn-gold w-full" style={{ fontSize: "0.75rem", opacity: formState === "sending" ? 0.7 : 1 }} disabled={formState === "sending"}>
+                      {formState === "sending" ? "Отправляем..." : "Отправить заявку"}
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </div>
