@@ -218,20 +218,20 @@ export default function Index() {
             <div className="flex items-center gap-4 mb-8" style={{ animation: "fade-up 0.8s ease-out forwards" }}>
               <div className="decorative-line" />
               <span style={{ fontFamily: "'Caveat', cursive", color: "#C9A86C", fontSize: "1.1rem", letterSpacing: "0.06em" }}>
-                Творческая студия Москвы
+                Переславль-Залесский · Для детей и взрослых
               </span>
             </div>
 
             <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(3rem, 8vw, 6.5rem)", fontWeight: 300, lineHeight: 1.05, letterSpacing: "-0.02em", animation: "fade-up 0.8s 0.2s ease-out both" }}>
-              Где рождается
+              Результат
               <br />
-              <em style={{ fontStyle: "italic", color: "#C9A86C" }}>настоящее</em>
+              <em style={{ fontStyle: "italic", color: "#C9A86C" }}>с первого</em>
               <br />
-              искусство
+              занятия
             </h1>
 
             <p style={{ fontFamily: "'Montserrat'", fontWeight: 300, fontSize: "1rem", lineHeight: 1.8, color: "rgba(245,239,224,0.7)", maxWidth: "480px", marginTop: "2rem", marginBottom: "2.5rem", animation: "fade-up 0.8s 0.4s ease-out both" }}>
-              Студия вокала и живописи для детей и взрослых. Здесь каждый открывает своё призвание — под руководством мастеров с мировым именем.
+              Индивидуальные программы обучения вокалу по итальянской методике — для детей и взрослых. Ваш голос раскроется с первого урока.
             </p>
 
             <div className="flex flex-wrap gap-4" style={{ animation: "fade-up 0.8s 0.6s ease-out both" }}>
